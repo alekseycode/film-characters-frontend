@@ -83,7 +83,7 @@ function OneCharacter() {
             <ul>
                 <form onSubmit={handleOnSubmit}>
                     <li>
-                        Dubuted in&nbsp;
+                        Debuted in&nbsp;
                         {
                             isEditing ?
                                 <input type="text" name="debut" value={character.debut} onChange={updateCharacter} /> :
