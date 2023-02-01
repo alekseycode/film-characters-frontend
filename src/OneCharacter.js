@@ -14,7 +14,15 @@ function OneCharacter() {
 
 
     useEffect(() => {
-        fetch(`${API_URL}/getCharacterByName/${name}`)
+        // fetch(`${API_URL}/getCharacterByName/${name}`)
+        fetch(`https://marvel-film-characters.com/api/getCharacterByName/${name}`, {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+        
             .then(async res => {
                 let result = await res.json()
                 setCharacter(result.payload)
@@ -35,12 +43,15 @@ function OneCharacter() {
             debutYear: character.debutYear
         }
         
-        fetch(`${API_URL}/updateCharacter/${character._id}`, {
+        // fetch(`${API_URL}/updateCharacter/${character._id}`, {
+        fetch(`https://marvel-film-characters.com/api/updateCharacter/${character._id}`, {
+
             method: "put",
             body: JSON.stringify(sendBody),
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
             }
         }).then(() => {
             setCharacter((prevState) => ({...prevState}))
@@ -50,9 +61,15 @@ function OneCharacter() {
     }
 
     function handleDelete() {
-        fetch(`${API_URL}/deleteCharacter/${character._id}`,
+        // fetch(`${API_URL}/deleteCharacter/${character._id}`,
+        fetch(`https://marvel-film-characters.com/api/deleteCharacter/${character._id}`,  
             {
                 method: "delete",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
         }).then(() => navigate('/mcu'))
     }
 

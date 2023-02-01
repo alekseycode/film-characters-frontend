@@ -2,19 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from './constants';
+import axios from 'axios'
 
 function AllCharacters() {
     const [serverData, setServerData] = useState([]);
 
     useEffect(() => {
-        fetch(`${API_URL}/allCharacters`)
+        // fetch(`${API_URL}/allCharacters`)
+        axios.get(`https://marvel-film-characters.com/api/allCharacters`, {
+          
+        })
           .then(async res => {
-            const data = await res.json();
     
-            console.log(data);
-    
-            setServerData(data.payload);
-          })
+            setServerData(res.data.payload);
+          }).catch((e)=>console.log(e))
     }, [])
 
     return (  

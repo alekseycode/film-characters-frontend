@@ -16,9 +16,15 @@ function CreateCharacter() {
             debutYear: debutYear
         }
 
-        fetch(`${API_URL}/api/createCharacter`, {
+        // fetch(`${API_URL}/api/createCharacter`, {
+        fetch(`https://marvel-film-characters.com/api/createCharacter`, {
             method: "post",
-            body: JSON.stringify(newChar)
+            body: JSON.stringify(newChar),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
         }).then(async res => {
             let serverResponse = await res.json()
             navigate(`/mcu/${serverResponse.payload.name}`);
