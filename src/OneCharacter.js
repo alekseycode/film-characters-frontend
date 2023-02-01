@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from './constants';
 
 function OneCharacter() {
     const { name } = useParams();
     const navigate = useNavigate();
 
-    const [character, setCharacter] = useState({})
+    const [character, setCharacter] = useState({
+        debut: "",
+        debutYear: ""
+    })
     const [isEditing, setIsEditing] = useState(false)
-    const [debutInput, setDebutInput] = useState("")
-    const [debutYearInput, setDebutYearInput] = useState("")
 
 
     useEffect(() => {
-        fetch(`https://marvel-film-characters.com/api/getCharacterByName/${name}`)
+        fetch(`${API_URL}/getCharacterByName/${name}`)
             .then(async res => {
                 let result = await res.json()
                 setCharacter(result.payload)
-                setDebutInput(result.payload.debut)
-                setDebutYearInput(result.payload.debutYear)
             })
     }, [name, isEditing])
 
@@ -30,23 +30,37 @@ function OneCharacter() {
 
         console.log("Submitted!");
 
-        let sendBody = {
-            debut: debutInput,
-            debutYear: debutYearInput
+        const sendBody = {
+            debut: character.debut,
+            debutYear: character.debutYear
         }
         
-        fetch(`https://marvel-film-characters.com/api/updateCharacter/${character._id}`, {
+        fetch(`${API_URL}/updateCharacter/${character._id}`, {
             method: "put",
-            body: JSON.stringify(sendBody)
-        }).then(()=>setIsEditing(false))
+            body: JSON.stringify(sendBody),
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        }).then(() => {
+            setCharacter((prevState) => ({...prevState}))
+            setIsEditing(false)
+        })
 
     }
 
     function handleDelete() {
-        fetch(`https://marvel-film-characters.com/api/deleteCharacter/${character._id}`,
+        fetch(`${API_URL}/deleteCharacter/${character._id}`,
             {
                 method: "delete",
         }).then(() => navigate('/mcu'))
+    }
+
+    function updateCharacter({target}) {
+        setCharacter((prevState) => ({
+            ...prevState,
+            [target.name]: target.value //dynamically inject property
+        }))
     }
 
     return (  
@@ -58,7 +72,7 @@ function OneCharacter() {
                         Dubuted in&nbsp;
                         {
                             isEditing ?
-                                <input type="text" name="debut" value={debutInput} onChange={(e) => setDebutInput(e.target.value)} /> :
+                                <input type="text" name="debut" value={character.debut} onChange={updateCharacter} /> :
                            <span>{character.debut}</span>
                         }
                     </li>
@@ -66,7 +80,7 @@ function OneCharacter() {
                         Released in&nbsp;
                         {
                             isEditing ?
-                                <input type="text" name="debutYear" value={debutYearInput} onChange={(e) => setDebutYearInput(e.target.value)} /> :
+                                <input type="text" name="debutYear" value={character.debutYear} onChange={updateCharacter} /> :
                            <span>{character.debutYear}</span>
                         }
                     </li>

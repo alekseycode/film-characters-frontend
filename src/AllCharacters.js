@@ -1,12 +1,13 @@
 // imrse
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL } from './constants';
 
 function AllCharacters() {
     const [serverData, setServerData] = useState([]);
 
     useEffect(() => {
-        fetch('https://marvel-film-characters.com/api/allCharacters')
+        fetch(`${API_URL}/allCharacters`)
           .then(async res => {
             const data = await res.json();
     

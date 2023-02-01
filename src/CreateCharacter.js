@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from './constants';
 
 function CreateCharacter() {
     const [name, setName] = useState("");
@@ -15,7 +16,7 @@ function CreateCharacter() {
             debutYear: debutYear
         }
 
-        fetch("https://marvel-film-characters.com/api/createCharacter", {
+        fetch(`${API_URL}/api/createCharacter`, {
             method: "post",
             body: JSON.stringify(newChar)
         }).then(async res => {
