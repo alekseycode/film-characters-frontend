@@ -8,12 +8,8 @@ function AllCharacters() {
     const [serverData, setServerData] = useState([]);
 
     useEffect(() => {
-        // fetch(`${API_URL}/allCharacters`)
-        axios.get(`https://marvel-film-characters.com/api/allCharacters`, {
-          
-        })
+        axios.get(`${API_URL}/allCharacters`)
           .then(async res => {
-    
             setServerData(res.data.payload);
           }).catch((e)=>console.log(e))
     }, [])

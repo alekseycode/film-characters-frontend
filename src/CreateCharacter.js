@@ -16,8 +16,7 @@ function CreateCharacter() {
             debutYear: debutYear
         }
 
-        // fetch(`${API_URL}/api/createCharacter`, {
-        fetch(`https://marvel-film-characters.com/api/createCharacter`, {
+        fetch(`${API_URL}/api/createCharacter`, {
             method: "post",
             body: JSON.stringify(newChar),
             headers: {
